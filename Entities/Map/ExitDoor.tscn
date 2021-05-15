@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Resources/Assets/0x72_16x16DungeonTileset.v4.png" type="Texture" id=1]
+[ext_resource path="res://Entities/Map/ExitDoor.gd" type="Script" id=2]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 240, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 16, 240, 16, 16 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Open"
+tracks/0/type = "value"
+tracks/0/path = NodePath("LeftWing:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -8, 0 ), Vector2( -24, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("RightWing:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.001, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 8, 0 ), Vector2( 24, 0 ) ]
+}
+
+[node name="ExitDoor" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="LeftWing" type="Sprite" parent="."]
+position = Vector2( -8, 0 )
+z_index = -2
+texture = SubResource( 1 )
+
+[node name="RightWing" type="Sprite" parent="."]
+position = Vector2( 8.24662, 0 )
+z_index = -2
+texture = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Open = SubResource( 3 )

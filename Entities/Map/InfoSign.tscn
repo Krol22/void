@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Resources/Assets/industrial.v2.png" type="Texture" id=1]
+[ext_resource path="res://Entities/Map/InfoSign.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 176, 112, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 320, 16, 16 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "wait"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Exclamation:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -0.469963, -16 ), Vector2( -0.47, -20 ), Vector2( -0.469963, -16 ) ]
+}
+
+[node name="InfoSign" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 2 )
+
+[node name="Exclamation" type="Sprite" parent="."]
+position = Vector2( -0.469973, -17.1167 )
+texture = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/wait = SubResource( 4 )
+[connection signal="body_entered" from="." to="." method="_on_InfoSign_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_InfoSign_body_exited"]

@@ -18,6 +18,7 @@ var active = false
 
 # HOOKS
 func _ready():
+	set_meta("type", "player")
 	position = position.snapped(Vector2.ONE * Globals.TILE_SIZE)
 
 func _process(_delta):

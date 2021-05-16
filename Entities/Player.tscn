@@ -66,6 +66,7 @@ atlas = ExtResource( 1 )
 region = Rect2( 86, 129, 4, 4 )
 
 [node name="Player" type="Area2D"]
+z_index = 2
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -82,9 +83,15 @@ anims/Activate = SubResource( 8 )
 anims/Fall = SubResource( 6 )
 
 [node name="ActiveIndicator" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 0, -11.3646 )
 texture = SubResource( 7 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 0, -8.6622 )
+enabled = true
+cast_to = Vector2( 0, -8 )
+collide_with_areas = true
+collide_with_bodies = false
 [connection signal="area_entered" from="." to="." method="_on_Player_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_Player_body_exited"]

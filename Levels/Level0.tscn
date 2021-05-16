@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Resources/map_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Entities/Map/Entrance.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entities/Map/Exit.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Entities/Map/Key.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Entities/Map/ExitDoor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Entities/Map/Bridge.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entities/Map/PressurePlate.tscn" type="PackedScene" id=7]
 
 [node name="Level" type="Node2D"]
 
@@ -17,7 +19,7 @@ tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 262152, 13, 0, 262154, 13, 0, 327686, 13, 0, 327687, 13, 0, 327688, 13, 0, 327689, 13, 0, 327690, 13, 0, 327691, 13, 0, 393222, 13, 0, 393224, 13, 0, 393227, 13, 0, 458758, 13, 0, 458759, 13, 0, 458760, 13, 0, 458762, 13, 0, 458763, 13, 0, 524295, 13, 0, 524298, 13, 0, 589830, 13, 0, 589831, 13, 0, 589834, 13, 0, 655366, 13, 0, 655368, 13, 0, 655369, 13, 0, 655370, 13, 0, 720902, 13, 0, 720904, 13, 0, 786438, 13, 0, 786440, 13, 0, 851974, 13, 0, 851976, 13, 0 )
+tile_data = PoolIntArray( 262152, 13, 0, 262154, 13, 0, 327686, 13, 0, 327687, 13, 0, 327688, 13, 0, 327689, 13, 0, 327690, 13, 0, 327691, 13, 0, 393222, 13, 0, 393224, 13, 0, 393227, 13, 0, 458758, 13, 0, 458759, 13, 0, 458760, 13, 0, 458762, 13, 0, 458763, 13, 0, 524295, 13, 0, 524298, 13, 0, 589830, 13, 0, 589831, 13, 0, 589834, 13, 0, 655366, 13, 0, 655368, 13, 0, 655369, 13, 0, 655370, 13, 0, 720902, 1, 0, 720904, 1, 0, 786438, 1, 0, 786440, 1, 0, 851974, 13, 0, 851976, 13, 0 )
 
 [node name="StaticBlocks" type="TileMap" parent="."]
 z_index = -1
@@ -46,7 +48,12 @@ z_index = -1
 
 [node name="Key" parent="Keys" instance=ExtResource( 4 )]
 position = Vector2( 168, 120 )
-rotation = 0.0617026
 
 [node name="Key2" parent="Keys" instance=ExtResource( 4 )]
 position = Vector2( 104, 152 )
+
+[node name="Bridge" parent="." instance=ExtResource( 6 )]
+position = Vector2( 72, 96 )
+
+[node name="PressurePlate" parent="." instance=ExtResource( 7 )]
+position = Vector2( 136, 248 )

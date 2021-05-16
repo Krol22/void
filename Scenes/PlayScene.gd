@@ -11,6 +11,8 @@ var prev_level
 var falling_blocks: TileMap
 var static_blocks: TileMap
 var exit_door: Node2D
+var bridge: Area2D
+var pressure_plate: Area2D
 
 var character_1
 var character_2
@@ -52,7 +54,7 @@ func _process(_delta):
 
 # SIGNALS
 func _on_player_move(character, next_position):
-	if (!is_on_ground(next_position)):
+	if (!is_on_ground(character, next_position)):
 		character.kill("drop")
 		Hud.toggle_reset_level_text(true)
 		return
@@ -60,9 +62,22 @@ func _on_player_move(character, next_position):
 	var falling_tile_pos = falling_blocks.world_to_map(next_position)
 	var is_on_falling_block =	!!falling_blocks.get_cellv(falling_tile_pos) != -1
 
+	# TODO this is shitty too
+	var collider = character.get_node("RayCast2D").get_collider()
+	if (collider && collider.get_meta("type") == "pressure_plate"):
+		collider.press()
+	else:
+		pressure_plate.unpress()
+
 	if (is_on_falling_block):
 		var tile_pos = falling_blocks.world_to_map(character.position)
-		falling_blocks.set_cellv(tile_pos, -1)
+		var tile_index = falling_blocks.get_cellv(tile_pos)
+
+		if (tile_index == 1):
+			falling_blocks.set_cellv(tile_pos, 13)
+		else:
+			falling_blocks.set_cellv(tile_pos, -1)
+
 
 func _on_key_picked(key):
 	keys_to_pick = keys_to_pick - 1
@@ -102,6 +117,11 @@ func init_level(loaded_level):
 	static_blocks = loaded_level.get_node("StaticBlocks")
 	exit_door = loaded_level.get_node("ExitDoor")
 
+	#TODO - this won't be on every level.
+	pressure_plate = loaded_level.get_node("PressurePlate")
+	bridge = loaded_level.get_node("Bridge")
+	bridge.set_pressure_plate(pressure_plate)
+
 	keys = loaded_level.get_node("Keys").get_children()
 	keys_to_pick = keys.size()
 
@@ -117,13 +137,23 @@ func init_level(loaded_level):
 	character_1.connect("player_off_exit", self, "_on_player_off_exit")
 	character_2.connect("player_off_exit", self, "_on_player_off_exit")
 
-func is_on_ground(next_position: Vector2):
+func is_on_ground(character: Area2D, next_position: Vector2):
 	var falling_tile_pos = falling_blocks.world_to_map(next_position)
 	var static_tile_pos = static_blocks.world_to_map(next_position)
 
+	var is_on_static_tile = static_blocks.get_cellv(static_tile_pos) != -1
+	var is_on_falling_tile = falling_blocks.get_cellv(falling_tile_pos) != -1
+	var is_on_bridge = false
+
+	if bridge:
+		var collider = character.get_node("RayCast2D").get_collider()
+		if collider && collider.get_meta("type") == "bridge":
+			is_on_bridge = true
+
 	return (
-		static_blocks.get_cellv(static_tile_pos) != -1 ||
-		falling_blocks.get_cellv(falling_tile_pos) != -1
+		is_on_static_tile ||
+		is_on_falling_tile ||
+		is_on_bridge
 	)
 
 func load_next_level():

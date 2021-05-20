@@ -66,8 +66,10 @@ func _on_player_move(character, next_position):
 	var collider = character.get_node("RayCast2D").get_collider()
 	if (collider && collider.get_meta("type") == "pressure_plate"):
 		collider.press()
-	else:
-		pressure_plate.unpress()
+		character.set_pressure_plate(collider)
+	elif (character.pressure_plate):
+		character.pressure_plate.unpress()
+		character.set_pressure_plate(null)
 
 	if (is_on_falling_block):
 		var tile_pos = falling_blocks.world_to_map(character.position)
@@ -77,7 +79,6 @@ func _on_player_move(character, next_position):
 			falling_blocks.set_cellv(tile_pos, 13)
 		else:
 			falling_blocks.set_cellv(tile_pos, -1)
-
 
 func _on_key_picked(key):
 	keys_to_pick = keys_to_pick - 1
@@ -149,6 +150,12 @@ func is_on_ground(character: Area2D, next_position: Vector2):
 		var collider = character.get_node("RayCast2D").get_collider()
 		if collider && collider.get_meta("type") == "bridge":
 			is_on_bridge = true
+			collider.set_active_player(character)
+			character.set_bridge(collider)
+		elif !collider && character.bridge:
+			character.bridge.set_active_player(null)
+			character.set_bridge(null)
+			
 
 	return (
 		is_on_static_tile ||

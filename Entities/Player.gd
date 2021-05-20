@@ -15,6 +15,8 @@ var speed = 10
 # TODO State manager
 var alive = true
 var active = false
+var bridge = null
+var pressure_plate = null
 
 # HOOKS
 func _ready():
@@ -85,8 +87,13 @@ func deactivate():
 	animation_player.play_backwards("Activate")
 	active = false
 
-
 func kill(_reason):
 	alive = false
 	animation_player.play("Fall")
 
+#TODO I can move it to one object? 
+func set_bridge(new_bridge):
+	bridge = new_bridge
+
+func set_pressure_plate(new_pressure_plate):
+	pressure_plate = new_pressure_plate
